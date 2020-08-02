@@ -1,15 +1,15 @@
 import React from "react";
 
-const Timer = (props) => {
+const Timer = ({ status, timer, startStop, reset, label }) => {
   return (
     <div id="timer-label">
-      <p>{props.status || "Session"}</p>
-      <h3 id="time-left">{props.timer || "25:00"}</h3>
+      <p>{status || "Session"}</p>
+      <h3 id="time-left">{timer}</h3>
 
-      <button id="start_stop" onClick={props.handleStartStop}>
-        Start
+      <button id="start_stop" onClick={startStop}>
+        {label === true ? "Pause" : "Start"}
       </button>
-      <button id="reset" onClick={props.handleReset}>
+      <button id="reset" onClick={reset}>
         Reset
       </button>
     </div>

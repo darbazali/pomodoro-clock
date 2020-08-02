@@ -10,11 +10,12 @@ const App = () => {
   /*====================================
     DEFINE HOOKS
   =====================================*/
-  const [_break, setBreak] = useState(5);
-  const [_timer, setTimer] = useState(25);
 
-  const [breakTime, setBreakTime] = useState(_break * 60);
-  const [session, setSession] = useState(_timer * 60);
+  const [breakTime, setBreakTime] = useState(5);
+  const [session, setSession] = useState(25);
+
+  const [_break, setBreak] = useState(breakTime * 60);
+  const [_timer, setTimer] = useState(session * 60);
 
   const [isRunning, setIsRunning] = useState(false);
   const [status, setStatus] = useState("session");
@@ -85,36 +86,36 @@ const App = () => {
   =====================================*/
   const sessionINC = () => {
     if (isRunning === false) {
-      if (_timer < 60) {
-        setTimer(_timer + 1);
-        setSession(session + 60);
+      if (session < 60) {
+        setSession(session + 1);
+        setTimer(_timer + 60);
       }
     }
   };
 
   const sessionDEC = () => {
     if (isRunning === false) {
-      if (_timer > 1) {
-        setTimer(_timer - 1);
-        setSession(session - 60);
+      if (session > 1) {
+        setSession(session - 1);
+        setTimer(_timer - 60);
       }
     }
   };
 
   const breakINC = () => {
     if (isRunning === false) {
-      if (_break < 60) {
-        setBreak(_break + 1);
-        setBreakTime(breakTime + 60);
+      if (breakTime < 60) {
+        setBreakTime(breakTime + 1);
+        setBreak(_break + 60);
       }
     }
   };
 
   const breakDEC = () => {
     if (isRunning === false) {
-      if (_break > 1) {
-        setBreak(_break - 1);
-        setBreakTime(breakTime - 60);
+      if (breakTime > 1) {
+        setBreakTime(breakTime - 1);
+        setBreak(_break - 60);
       }
     }
   };
@@ -122,18 +123,24 @@ const App = () => {
   return (
     <div>
       <h1>Pomodoro Clock</h1>
-      <Timer />
+      <Timer
+        status={status}
+        timer={status === "session" ? clockify(_timer) : clockify(_break)}
+        startStop={isRunning === false ? start : pause}
+        label={isRunning}
+        reset={reset}
+      />
 
       <BreakController
         breakDEC={breakDEC}
         breakINC={breakINC}
-        _break={_break}
+        _break={breakTime}
       />
 
       <SessionController
         sessionDEC={sessionDEC}
         sessionINC={sessionINC}
-        session={_timer}
+        session={session}
       />
       <Audio audio={audio} />
     </div>
