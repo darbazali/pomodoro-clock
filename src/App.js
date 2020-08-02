@@ -28,9 +28,19 @@ const App = () => {
   let interval = null;
 
   /*====================================
+      useEFECT
+  =====================================*/
+  useEffect(() => {
+    if (isRunning === true) {
+      interval = setInterval(() => {
+        tick();
+      }, 1000);
+    }
+  }, [_timer]);
+
+  /*====================================
     TIMER FUNCTIONS
   =====================================*/
-
   const clockify = (duration) => {
     let timer = duration,
       minutes,
@@ -52,22 +62,25 @@ const App = () => {
 
   const tick = () => {
     if (isRunning === true) {
-      if (status === "session") {
-        setTimer((timer) => timer - 1);
-      } else if (status === "break") {
-        setBreak((_break) => _break - 1);
-      }
+      // if (status === "session") {
+      //   setTimer(_timer => _timer - 1);
+      // } else if (status === "break") {
+      //   setBreak((_break) => _break - 1);
+      // }
+      setTimer((_timer) => _timer - 1);
     }
   };
 
   const start = () => {
     setIsRunning(true);
-    tick();
+    // tick();
+    console.log("start");
   };
 
   const pause = () => {
     setIsRunning(false);
     clearInterval(interval);
+    console.log("pause");
   };
 
   const reset = () => {
@@ -125,7 +138,7 @@ const App = () => {
       <h1>Pomodoro Clock</h1>
       <Timer
         status={status}
-        timer={status === "session" ? clockify(_timer) : clockify(_break)}
+        timer={clockify(_timer)}
         startStop={isRunning === false ? start : pause}
         label={isRunning}
         reset={reset}
