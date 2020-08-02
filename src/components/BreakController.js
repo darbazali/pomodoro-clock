@@ -6,7 +6,7 @@ const BreakController = (props) => {
       <button id="break-decrement" onClick={props.handleBreakDec}>
         -
       </button>
-      <span id="break-length">{props._break || 5 }</span>
+      <span id="break-length">{props._break || 5}</span>
       <button id="break-increment" onClick={props.handleBreakInc}>
         +
       </button>
