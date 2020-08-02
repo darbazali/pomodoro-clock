@@ -4,6 +4,7 @@ import { render } from "react-dom";
 import BreakController from "./components/BreakController";
 import SessionController from "./components/SessionController";
 import Timer from './components/Timer';
+import Audio from './components/Audio';
 
 const App = () => {
 
@@ -34,6 +35,9 @@ const App = () => {
       <Timer />
       <BreakController />
       <SessionController />
+      <Audio 
+        audio={audio}
+      />
     </div>
   );
 };
