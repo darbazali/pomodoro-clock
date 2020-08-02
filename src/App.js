@@ -61,53 +61,61 @@ const App = () => {
 
   const start = () => {
     setIsRunning(true);
-    tick()
-  }
+    tick();
+  };
 
   const pause = () => {
-    setIsRunning( false )
-    clearInterval( interval );
-  }
+    setIsRunning(false);
+    clearInterval(interval);
+  };
 
   const reset = () => {
-    setIsRunning( false );
-    clearInterval( interval )
-    setStatus('session')
-    setTimer( 1500 )
+    setIsRunning(false);
+    clearInterval(interval);
+    setStatus("session");
+    setTimer(1500);
     setBreak(300);
-    setSession(25)
-    setBreakTime(5)
+    setSession(25);
+    setBreakTime(5);
     audio.current.pause();
-  }
+  };
 
   /*====================================
     DEFINE HANDLERS
   =====================================*/
   const sessionINC = () => {
-    if (session < 60) {
-      setSession(session + 1);
-      setTimer(_timer + 60);
+    if (isRunning === false) {
+      if (_timer < 60) {
+        setTimer(_timer + 1);
+        setSession(session + 60);
+      }
     }
   };
 
-  const sessinDEC = () => {
-    if (session > 1) {
-      setSession(session - 1);
-      setTimer(_timer - 60);
+  const sessionDEC = () => {
+    if (isRunning === false) {
+      if (_timer > 1) {
+        setTimer(_timer - 1);
+        setSession(session - 60);
+      }
     }
   };
 
   const breakINC = () => {
-    if (breakTime < 60) {
-      setBreakTime(breakTime + 1);
-      setBreak(_break + 60);
+    if (isRunning === false) {
+      if (_break < 60) {
+        setBreak(_break + 1);
+        setBreakTime(breakTime + 60);
+      }
     }
   };
 
   const breakDEC = () => {
-    if (breakTime > 1) {
-      setBreakTime(breakTime - 1);
-      setBreak(_break - 60);
+    if (isRunning === false) {
+      if (_break > 1) {
+        setBreak(_break - 1);
+        setBreakTime(breakTime - 60);
+      }
     }
   };
 
@@ -115,8 +123,18 @@ const App = () => {
     <div>
       <h1>Pomodoro Clock</h1>
       <Timer />
-      <BreakController />
-      <SessionController />
+
+      <BreakController
+        breakDEC={breakDEC}
+        breakINC={breakINC}
+        _break={_break}
+      />
+
+      <SessionController
+        sessionDEC={sessionDEC}
+        sessionINC={sessionINC}
+        session={_timer}
+      />
       <Audio audio={audio} />
     </div>
   );

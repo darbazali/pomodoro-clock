@@ -1,6 +1,6 @@
 import React from "react";
 
-const SessionController = (props) => {
+const SessionController = ({ session, sessionINC, sessionDEC }) => {
   return (
     <div id="session-label">
       <div className="control-name">
@@ -8,11 +8,11 @@ const SessionController = (props) => {
       </div>
 
       <div className="controls">
-        <button id="session-decrement" onClick={props.handleSessionDec}>
+        <button id="session-decrement" onClick={sessionDEC}>
           -
         </button>
-        <span id="session-length">{props.session || 25}</span>
-        <button id="session-increment" onClick={props.handleSessionInc}>
+        <span id="session-length">{session}</span>
+        <button id="session-increment" onClick={sessionINC}>
           +
         </button>
       </div>

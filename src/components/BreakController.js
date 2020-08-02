@@ -1,6 +1,6 @@
 import React from "react";
 
-const BreakController = (props) => {
+const BreakController = ({ breakDEC, breakINC, _break }) => {
   return (
     <div id="break-label">
       <div className="control-name">
@@ -8,11 +8,11 @@ const BreakController = (props) => {
       </div>
 
       <div className="controls">
-        <button id="break-decrement" onClick={props.handleBreakDec}>
+        <button id="break-decrement" onClick={breakDEC}>
           -
         </button>
-        <span id="break-length">{props._break || 5}</span>
-        <button id="break-increment" onClick={props.handleBreakInc}>
+        <span id="break-length">{_break}</span>
+        <button id="break-increment" onClick={breakINC}>
           +
         </button>
       </div>
