@@ -35,19 +35,20 @@ const App = () => {
       interval = setInterval(() => {
         tick();
       }, 1000);
-      if (_timer <= 0) {
+      if (_timer == 0) {
         setStatus("break");
         audio.current.play();
       }
 
-      if (_break <= 0) {
+      if (_break == 0) {
         setStatus("session");
+        audio.current.play();
         reset();
       }
 
       return () => clearInterval(interval);
     }
-  }, [_timer, _break, session]);
+  }, [_timer, _break]);
 
   /*====================================
     TIMER FUNCTIONS
@@ -72,19 +73,21 @@ const App = () => {
   };
 
   const tick = () => {
-    setTimer((_timer) => _timer - 1);
+    if (status === "session") {
+      setTimer((_timer) => _timer - 1);
+    } else if (status === "break") {
+      setBreak((_break) => _break - 1);
+    }
   };
 
   const start = () => {
     setIsRunning(true);
     tick();
-    console.log("start");
   };
 
   const pause = () => {
     setIsRunning(false);
     clearInterval(interval);
-    console.log("pause");
   };
 
   const reset = () => {
@@ -96,6 +99,7 @@ const App = () => {
     setSession(25);
     setBreakTime(5);
     audio.current.pause();
+    audio.current.currentTime = 0;
   };
 
   /*====================================
@@ -149,7 +153,9 @@ const App = () => {
       /> */}
       <div id="timer-label">
         <p>{status}</p>
-        <h2 id="time-left">{clockify(_timer)}</h2>
+        <h2 id="time-left">
+          {status === "session" ? clockify(_timer) : clockify(_break)}
+        </h2>
 
         <button onClick={isRunning === false ? start : pause} id="start_stop">
           {isRunning === true ? "Pause" : "Start"}
