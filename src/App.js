@@ -25,18 +25,29 @@ const App = () => {
     DEFINE VARIABLES
   =====================================*/
   const audio = useRef();
-  let interval = null;
+  let interval;
 
   /*====================================
       useEFECT
   =====================================*/
   useEffect(() => {
-    if (isRunning === true) {
+    if (isRunning) {
       interval = setInterval(() => {
         tick();
       }, 1000);
+      if (_timer <= 0) {
+        setStatus("break");
+        audio.current.play();
+      }
+
+      if (_break <= 0) {
+        setStatus("session");
+        reset();
+      }
+
+      return () => clearInterval(interval);
     }
-  }, [_timer]);
+  }, [_timer, _break, session]);
 
   /*====================================
     TIMER FUNCTIONS
@@ -61,19 +72,12 @@ const App = () => {
   };
 
   const tick = () => {
-    if (isRunning === true) {
-      // if (status === "session") {
-      //   setTimer(_timer => _timer - 1);
-      // } else if (status === "break") {
-      //   setBreak((_break) => _break - 1);
-      // }
-      setTimer((_timer) => _timer - 1);
-    }
+    setTimer((_timer) => _timer - 1);
   };
 
   const start = () => {
     setIsRunning(true);
-    // tick();
+    tick();
     console.log("start");
   };
 
@@ -136,13 +140,25 @@ const App = () => {
   return (
     <div>
       <h1>Pomodoro Clock</h1>
-      <Timer
+      {/* <Timer
         status={status}
         timer={clockify(_timer)}
         startStop={isRunning === false ? start : pause}
         label={isRunning}
         reset={reset}
-      />
+      /> */}
+      <div id="timer-label">
+        <p>{status}</p>
+        <h2 id="time-left">{clockify(_timer)}</h2>
+
+        <button onClick={isRunning === false ? start : pause} id="start_stop">
+          {isRunning === true ? "Pause" : "Start"}
+        </button>
+
+        <button onClick={reset} id="reset">
+          Reset
+        </button>
+      </div>
 
       <BreakController
         breakDEC={breakDEC}
