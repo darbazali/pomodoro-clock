@@ -141,6 +141,14 @@ const App = () => {
     }
   };
 
+  const play = () => {
+    if (status === "session") {
+      return clockify(_timer);
+    } else {
+      return clockify(_break);
+    }
+  };
+
   return (
     <div>
       <h1>Pomodoro Clock</h1>
@@ -153,9 +161,7 @@ const App = () => {
       /> */}
       <div id="timer-label">
         <p>{status}</p>
-        <h2 id="time-left">
-          {status === "session" ? clockify(_timer) : clockify(_break)}
-        </h2>
+        <h2 id="time-left">{play()}</h2>
 
         <button onClick={isRunning === false ? start : pause} id="start_stop">
           {isRunning === true ? "Pause" : "Start"}
