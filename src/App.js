@@ -13,9 +13,7 @@ const App = () => {
 
   const [breakTime, setBreakTime] = useState(5);
   const [session, setSession] = useState(25);
-
-  const [_break, setBreak] = useState(breakTime * 60);
-  const [_timer, setTimer] = useState(session * 60);
+  const [time, setTime] = useState(1500);
 
   const [isRunning, setIsRunning] = useState(false);
   const [status, setStatus] = useState("session");
@@ -27,64 +25,44 @@ const App = () => {
   const audio = useRef();
   const interval = useRef();
 
+
+
+
+
+
+
   /*====================================
       useEFECT
   =====================================*/
   useEffect(() => {
-    if (isRunning) {
-      if (_timer == 0) {
+    if ( isRunning ) {
+      if ( status == 'session' &&  time <= 0 ) {
+        // if session time done?
+        // start the break time
+        // play the buzzer
         audio.current.play();
-        setTimeout(() => {
-          setStatus("break");
-        }, 1000);
-        
+        setStatus('break')
+        setTime(breakTime * 60);
       }
 
-      if (_break == 0) {
-        setTimeout(() => {
-          setStatus("session");
-        }, 1000);
+      if (status == 'break' && time <= 0) {
+        setIsRunning(false);
         audio.current.play();
-        // reset();
+        setStatus('session')
+        setTime(session * 60)
+        reset();
       }
-
-      
     }
-    // return () => clearInterval(interval.current);
-  }, [_timer, _break]);
+
+  }, [time]);
 
   /*====================================
     TIMER FUNCTIONS
   =====================================*/
-  const clockify = (duration) => {
-    let timer = duration,
-      minutes,
-      seconds;
-
-    minutes = parseInt(timer / 60, 10);
-    seconds = parseInt(timer % 60, 10);
-
-    seconds = seconds < 10 ? "0" + seconds : seconds;
-    minutes = minutes < 10 ? "0" + minutes : minutes;
-    let time = minutes + ":" + seconds;
-
-    if (--timer < 0) {
-      timer = 0;
-      time = "00:00"
-    }
-
-    return time;
-  };
-
   const tick = () => {
     interval.current = setInterval(() => {
-      if (status === "session") {
-      setTimer((_timer) => _timer - 1);
-    } else if (status === "break") {
-      setBreak((_break) => _break - 1);
-    }
+      setTime( time => time - 1)
     }, 1000);
-    
   };
 
   const start = () => {
@@ -101,13 +79,14 @@ const App = () => {
     setIsRunning(false);
     clearInterval(interval.current);
     setStatus("session");
-    setTimer(1500);
-    setBreak(300);
+    setTime(1500);
     setSession(25);
     setBreakTime(5);
     audio.current.pause();
     audio.current.currentTime = 0;
   };
+
+
 
   /*====================================
     DEFINE HANDLERS
@@ -116,7 +95,7 @@ const App = () => {
     if (isRunning === false) {
       if (session < 60) {
         setSession(session + 1);
-        setTimer(_timer + 60);
+        setTime( (session + 1) * 60 )
       }
     }
   };
@@ -125,7 +104,7 @@ const App = () => {
     if (isRunning === false) {
       if (session > 1) {
         setSession(session - 1);
-        setTimer(_timer - 60);
+        setTime((session - 1) * 60)
       }
     }
   };
@@ -134,7 +113,6 @@ const App = () => {
     if (isRunning === false) {
       if (breakTime < 60) {
         setBreakTime(breakTime + 1);
-        setBreak(_break + 60);
       }
     }
   };
@@ -143,17 +121,16 @@ const App = () => {
     if (isRunning === false) {
       if (breakTime > 1) {
         setBreakTime(breakTime - 1);
-        setBreak(_break - 60);
       }
     }
   };
 
-  const play = () => {
-    if (status === "session") {
-      return clockify(_timer);
-    } else {
-      return clockify(_break);
-    }
+  const clockify = (duration) => {
+    let minutes = Math.floor(duration / 60);
+    let seconds = duration - minutes * 60;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    return minutes + ':' + seconds;
   };
 
   return (
@@ -168,7 +145,7 @@ const App = () => {
       /> */}
       <div id="timer-label">
         <p>{status}</p>
-        <h2 id="time-left">{play()}</h2>
+        <h2 id="time-left">{clockify(time)}</h2>
 
         <button onClick={isRunning === false ? start : pause} id="start_stop">
           {isRunning === true ? "Pause" : "Start"}
