@@ -25,29 +25,32 @@ const App = () => {
     DEFINE VARIABLES
   =====================================*/
   const audio = useRef();
-  let interval;
+  const interval = useRef();
 
   /*====================================
       useEFECT
   =====================================*/
   useEffect(() => {
     if (isRunning) {
-      interval = setInterval(() => {
-        tick();
-      }, 1000);
       if (_timer == 0) {
-        setStatus("break");
         audio.current.play();
+        setTimeout(() => {
+          setStatus("break");
+        }, 1000);
+        
       }
 
       if (_break == 0) {
-        setStatus("session");
+        setTimeout(() => {
+          setStatus("session");
+        }, 1000);
         audio.current.play();
-        reset();
+        // reset();
       }
 
-      return () => clearInterval(interval);
+      
     }
+    // return () => clearInterval(interval.current);
   }, [_timer, _break]);
 
   /*====================================
@@ -67,17 +70,21 @@ const App = () => {
 
     if (--timer < 0) {
       timer = 0;
+      time = "00:00"
     }
 
     return time;
   };
 
   const tick = () => {
-    if (status === "session") {
+    interval.current = setInterval(() => {
+      if (status === "session") {
       setTimer((_timer) => _timer - 1);
     } else if (status === "break") {
       setBreak((_break) => _break - 1);
     }
+    }, 1000);
+    
   };
 
   const start = () => {
@@ -87,12 +94,12 @@ const App = () => {
 
   const pause = () => {
     setIsRunning(false);
-    clearInterval(interval);
+    clearInterval(interval.current);
   };
 
   const reset = () => {
     setIsRunning(false);
-    clearInterval(interval);
+    clearInterval(interval.current);
     setStatus("session");
     setTimer(1500);
     setBreak(300);
