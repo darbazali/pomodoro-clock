@@ -15,6 +15,7 @@ body {
 
 #root {
     width: 80%;
+    max-width: 900px;
     height: auto;
     margin: 0 auto;
     background-color: #1B1D24;
@@ -48,6 +49,10 @@ body {
     font-size: 150px;
     font-weight: 300;
     color: #fff;
+    width: 400px;
+    min-width: 400px;
+    max-width: 400px;
+    text-align: center;
 }
 
 
@@ -103,4 +108,9 @@ body {
     border: 2px solid #6a5752;
     color: #F7A288;
     font-size: 30px;
+}
+
+
+#author a {
+    color: #559DFF;
 }

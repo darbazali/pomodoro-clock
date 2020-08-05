@@ -204,7 +204,7 @@ const App = () => {
           _break={breakTime}
         />
 
-        <div id="author">© 2020, a product from Darbaz Ali</div>
+        <div id="author">© 2020, a product from <a href="https://darbaz.design" target="_blank" rel="noopener noreferrer">Darbaz Ali</a></div>
 
         <SessionController
           sessionDEC={sessionDEC}
