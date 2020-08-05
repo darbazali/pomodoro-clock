@@ -1,5 +1,5 @@
 # Pomodoro Clock
-Fullfledge Pomodoro Clock with React.js
+Full-fledged Pomodoro Clock with React.js
 
 ![alt text](src/banner.png "Pomodoro Clock")
 
