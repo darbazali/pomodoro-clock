@@ -1,10 +1,65 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 import React, { useState, useEffect, useRef } from "react";
 import { render } from "react-dom";
 
-import BreakController from "./components/BreakController";
-import SessionController from "./components/SessionController";
-import Timer from "./components/Timer";
-import Audio from "./components/Audio";
+// import BreakController from "./components/BreakController";
+// import SessionController from "./components/SessionController";
+// import Timer from "./components/Timer";
+// import Audio from "./components/Audio";
+
+
+const BreakController = ({ breakDEC, breakINC, _break }) => {
+  return (
+    <div id="break-label">
+      <div className="control-name">
+        <p>Break Length</p>
+      </div>
+
+      <div className="controls">
+        <button id="break-decrement" onClick={breakDEC}>
+          -
+        </button>
+        <span id="break-length">{_break}</span>
+        <button id="break-increment" onClick={breakINC}>
+          +
+        </button>
+      </div>
+    </div>
+  );
+};
+
+
+const SessionController = ({ session, sessionINC, sessionDEC }) => {
+  return (
+    <div id="session-label">
+      <div className="control-name">
+        <p>Session Length</p>
+      </div>
+
+      <div className="controls">
+        <button id="session-decrement" onClick={sessionDEC}>
+          -
+        </button>
+        <span id="session-length">{session}</span>
+        <button id="session-increment" onClick={sessionINC}>
+          +
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const Audio = ({ audio }) => {
+  return (
+    <audio
+      id="beep"
+      preload="auto"
+      src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"
+      ref={audio}
+    />
+  );
+};
+
 
 const App = () => {
   /*====================================
