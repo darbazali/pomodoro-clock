@@ -12,7 +12,7 @@ const BreakController = ({ breakDEC, breakINC, _break }) => {
   return (
     <div id="break-label">
       <div className="control-name">
-        <p>Break Length</p>
+        <p>Break(m)</p>
       </div>
 
       <div className="controls">
@@ -21,7 +21,7 @@ const BreakController = ({ breakDEC, breakINC, _break }) => {
         </button>
         <span id="break-length">{_break}</span>
         <button id="break-increment" onClick={breakINC}>
-          +
+         +
         </button>
       </div>
     </div>
@@ -33,7 +33,7 @@ const SessionController = ({ session, sessionINC, sessionDEC }) => {
   return (
     <div id="session-label">
       <div className="control-name">
-        <p>Session Length</p>
+        <p>Session(m)</p>
       </div>
 
       <div className="controls">
@@ -190,17 +190,9 @@ const App = () => {
 
   return (
     <div>
-      <h1>Pomodoro Clock</h1>
-      {/* <Timer
-        status={status}
-        timer={clockify(_timer)}
-        startStop={isRunning === false ? start : pause}
-        label={isRunning}
-        reset={reset}
-      /> */}
       <div id="timer-label">
         <p>{status}</p>
-        <h2 id="time-left">{clockify(time)}</h2>
+        <h1 id="time-left">{clockify(time)}</h1>
 
         <button onClick={isRunning === false ? start : pause} id="start_stop">
           {isRunning === true ? "Pause" : "Start"}
