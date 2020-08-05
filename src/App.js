@@ -7,7 +7,6 @@ import { render } from "react-dom";
 // import Timer from "./components/Timer";
 // import Audio from "./components/Audio";
 
-
 const BreakController = ({ breakDEC, breakINC, _break }) => {
   return (
     <div id="break-label">
@@ -16,18 +15,17 @@ const BreakController = ({ breakDEC, breakINC, _break }) => {
       </div>
 
       <div className="controls">
-        <button id="break-decrement" onClick={breakDEC}>
+        <button id="break-decrement" onClick={breakDEC} className="btn">
           -
         </button>
         <span id="break-length">{_break}</span>
-        <button id="break-increment" onClick={breakINC}>
-         +
+        <button id="break-increment" onClick={breakINC} className="btn">
+          +
         </button>
       </div>
     </div>
   );
 };
-
 
 const SessionController = ({ session, sessionINC, sessionDEC }) => {
   return (
@@ -37,11 +35,11 @@ const SessionController = ({ session, sessionINC, sessionDEC }) => {
       </div>
 
       <div className="controls">
-        <button id="session-decrement" onClick={sessionDEC}>
+        <button id="session-decrement" onClick={sessionDEC} className="btn">
           -
         </button>
         <span id="session-length">{session}</span>
-        <button id="session-increment" onClick={sessionINC}>
+        <button id="session-increment" onClick={sessionINC} className="btn">
           +
         </button>
       </div>
@@ -59,7 +57,6 @@ const Audio = ({ audio }) => {
     />
   );
 };
-
 
 const App = () => {
   /*====================================
@@ -80,35 +77,28 @@ const App = () => {
   const audio = useRef();
   const interval = useRef();
 
-
-
-
-
-
-
   /*====================================
       useEFECT
   =====================================*/
   useEffect(() => {
-    if ( isRunning ) {
-      if ( status == 'session' &&  time <= 0 ) {
+    if (isRunning) {
+      if (status == "session" && time <= 0) {
         // if session time done?
         // start the break time
         // play the buzzer
         audio.current.play();
-        setStatus('break')
+        setStatus("break");
         setTime(breakTime * 60);
       }
 
-      if (status == 'break' && time <= 0) {
+      if (status == "break" && time <= 0) {
         setIsRunning(false);
         audio.current.play();
-        setStatus('session')
-        setTime(session * 60)
+        setStatus("session");
+        setTime(session * 60);
         reset();
       }
     }
-
   }, [time]);
 
   /*====================================
@@ -116,7 +106,7 @@ const App = () => {
   =====================================*/
   const tick = () => {
     interval.current = setInterval(() => {
-      setTime( time => time - 1)
+      setTime((time) => time - 1);
     }, 1000);
   };
 
@@ -141,8 +131,6 @@ const App = () => {
     audio.current.currentTime = 0;
   };
 
-
-
   /*====================================
     DEFINE HANDLERS
   =====================================*/
@@ -150,7 +138,7 @@ const App = () => {
     if (isRunning === false) {
       if (session < 60) {
         setSession(session + 1);
-        setTime( (session + 1) * 60 )
+        setTime((session + 1) * 60);
       }
     }
   };
@@ -159,7 +147,7 @@ const App = () => {
     if (isRunning === false) {
       if (session > 1) {
         setSession(session - 1);
-        setTime((session - 1) * 60)
+        setTime((session - 1) * 60);
       }
     }
   };
@@ -183,37 +171,47 @@ const App = () => {
   const clockify = (duration) => {
     let minutes = Math.floor(duration / 60);
     let seconds = duration - minutes * 60;
-    seconds = seconds < 10 ? '0' + seconds : seconds;
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    return minutes + ':' + seconds;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    return minutes + ":" + seconds;
   };
 
   return (
     <div>
       <div id="timer-label">
         <p>{status}</p>
-        <h1 id="time-left">{clockify(time)}</h1>
+        <div id="display">
+          <button onClick={reset} id="reset" className="round-btn">
+            Reset
+          </button>
 
-        <button onClick={isRunning === false ? start : pause} id="start_stop">
-          {isRunning === true ? "Pause" : "Start"}
-        </button>
+          <h1 id="time-left">{clockify(time)}</h1>
 
-        <button onClick={reset} id="reset">
-          Reset
-        </button>
+          <button
+            onClick={isRunning === false ? start : pause}
+            id="start_stop"
+            className="round-btn"
+          >
+            {isRunning === true ? "Pause" : "Start"}
+          </button>
+        </div>
       </div>
 
-      <BreakController
-        breakDEC={breakDEC}
-        breakINC={breakINC}
-        _break={breakTime}
-      />
+      <div id="controls">
+        <BreakController
+          breakDEC={breakDEC}
+          breakINC={breakINC}
+          _break={breakTime}
+        />
 
-      <SessionController
-        sessionDEC={sessionDEC}
-        sessionINC={sessionINC}
-        session={session}
-      />
+        <div id="author">© 2020, a product from Darbaz Ali</div>
+
+        <SessionController
+          sessionDEC={sessionDEC}
+          sessionINC={sessionINC}
+          session={session}
+        />
+      </div>
       <Audio audio={audio} />
     </div>
   );

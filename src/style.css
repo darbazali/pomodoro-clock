@@ -14,17 +14,93 @@ body {
 }
 
 #root {
-    width: 90%;
-    height: 50vh;
+    width: 80%;
+    height: auto;
     margin: 0 auto;
     background-color: #1B1D24;
-    padding: 40px;
     text-align: center;
-    color: #F5F5F5;
+    color: #E2E2E2;
+
+
     position: absolute;
     left: 50%;
     top: 50%;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    border: 1px solid white;
+    /* border: 1px solid white; */
+}
+
+
+
+#timer-label p  {
+    font-size: 30px;
+}
+#root div#display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    margin-top: 40px;
+    margin-bottom: 100px;
+}
+
+#root div#display h1 {
+    font-size: 150px;
+    font-weight: 300;
+    color: #fff;
+}
+
+
+.round-btn {
+    font-size: 20px;
+    width: 86px;
+    height: 86px;
+    background: #2a3b2e;
+    border: 2px solid #393939;
+    border-radius: 100%;
+    color: #F5F5F5;
+}
+
+#reset {
+    background: #2f2f2f;
+}
+
+#start_stop {
+    background: #2a3b2e;
+    color: #2ADD5A;
+}
+
+
+#controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    align-content: center;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    width: 160px;
+}
+
+.controls span {
+    font-size: 32px;
+    font-weight: 500;
+}
+
+.control-name {
+    margin-bottom: 20px;
+}
+
+#controls .btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
+    background: #121212;
+    border: 2px solid #6a5752;
+    color: #F7A288;
+    font-size: 30px;
 }
