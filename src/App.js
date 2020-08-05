@@ -2,61 +2,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { render } from "react-dom";
 
-// import BreakController from "./components/BreakController";
-// import SessionController from "./components/SessionController";
-// import Timer from "./components/Timer";
-// import Audio from "./components/Audio";
+import BreakController from "./components/BreakController";
+import SessionController from "./components/SessionController";
+import Audio from "./components/Audio";
 
-const BreakController = ({ breakDEC, breakINC, _break }) => {
-  return (
-    <div id="break-label">
-      <div className="control-name">
-        <p>Break(m)</p>
-      </div>
 
-      <div className="controls">
-        <button id="break-decrement" onClick={breakDEC} className="btn">
-          -
-        </button>
-        <span id="break-length">{_break}</span>
-        <button id="break-increment" onClick={breakINC} className="btn">
-          +
-        </button>
-      </div>
-    </div>
-  );
-};
-
-const SessionController = ({ session, sessionINC, sessionDEC }) => {
-  return (
-    <div id="session-label">
-      <div className="control-name">
-        <p>Session(m)</p>
-      </div>
-
-      <div className="controls">
-        <button id="session-decrement" onClick={sessionDEC} className="btn">
-          -
-        </button>
-        <span id="session-length">{session}</span>
-        <button id="session-increment" onClick={sessionINC} className="btn">
-          +
-        </button>
-      </div>
-    </div>
-  );
-};
-
-const Audio = ({ audio }) => {
-  return (
-    <audio
-      id="beep"
-      preload="auto"
-      src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"
-      ref={audio}
-    />
-  );
-};
 
 const App = () => {
   /*====================================
